@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>PreOrder Status Update</title>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/sockjs-client/1.5.2/sockjs.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/stomp.js/2.3.3/stomp.min.js"></script>
+</head>
+<body>
+<h2>Pre-order Status Updates</h2>
+<div id="status"></div>
+
+<script type="text/javascript">
+    var socket = new SockJS('/ws');
+    var stompClient = Stomp.over(socket);
+
+    stompClient.connect({}, function (frame) {
+        console.log('Connected: ' + frame);
+        stompClient.subscribe('/topic/preorder-updates', function (messageOutput) {
+            document.getElementById('status').innerHTML = 'Update: ' + messageOutput.body;
+        });
+    });
+</script>
+</body>
+</html>

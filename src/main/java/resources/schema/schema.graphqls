@@ -1,0 +1,75 @@
+
+enum OrderStatusType {
+    PENDING,
+    PROCESSING,
+    SHIPPED,
+    DELIVERED,
+    CANCELLED
+}
+
+type Product {
+    id: ID!
+    name: String!
+    description: String
+    price: Float!
+    size: String
+    stock: Int!
+    salesCount: Int!
+}
+type Customer {
+    id: ID!
+    name: String!
+    email: String!
+    address: String
+}
+
+type OrderStatus {
+    id: ID!
+    status: OrderStatusType!
+}
+type PreOrder {
+    id: ID!
+    item: Product!
+    quantity: Int!
+    customerName: String!
+    status: OrderStatus!
+}
+
+type Query {
+    allProducts: [Product]
+    productById(id: ID!): Product
+
+    allCustomers: [Customer]
+    customerById(id: ID!): Customer
+
+    allOrderStatuses: [OrderStatus]
+    orderStatusById(id: ID!): OrderStatus
+
+    allPreOrders: [PreOrder]
+    preOrderById(id: ID!): PreOrder
+}
+
+type Mutation {
+    createProduct(name: String!, description: String, price: Float!, size: String, stock: Int!, salesCount: Int!): Product
+    updateProduct(id: ID!, name: String!, description: String, price: Float!, size: String, stock: Int!, salesCount: Int!): Product
+    deleteProduct(id: ID!): Boolean
+
+    createCustomer(name: String!, email: String!, address: String): Customer
+    updateCustomer(id: ID!, name: String!, email: String!, phone: String): Customer
+    deleteCustomer(id: ID!): Boolean
+
+    createOrderStatus(status: OrderStatusType!): OrderStatus
+    updateOrderStatus(id: ID!, status: OrderStatusType!): OrderStatus
+    deleteOrderStatus(id: ID!): Boolean
+
+    createPreOrder(itemId: ID!, quantity: Int!, customerName: String!, status: OrderStatusType!): PreOrder
+    updatePreOrder(id: ID!, itemId: ID!, quantity: Int!, customerName: String!, status: OrderStatusType!): PreOrder
+    deletePreOrder(id: ID!): Boolean
+    updatePreOrderStatus(id: ID!, status: OrderStatusType!): PreOrder
+}
+input PreOrderInput {
+    itemId: ID!
+    quantity: Int!
+    customerName: String!
+    status: OrderStatusType!
+}
